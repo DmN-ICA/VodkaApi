@@ -35,6 +35,10 @@ public interface VodkaMod {
         return new String[]{};
     }
 
+    interface FirstInitializer {
+        void firstInit();
+    }
+
     interface ClientInitializer {
         void clientInit();
     }

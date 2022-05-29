@@ -2,6 +2,7 @@ package DmN.ICA.vodka;
 
 import DmN.ICA.vodka.api.MinecraftVersion;
 import DmN.ICA.vodka.api.VodkaMod;
+import DmN.ICA.vodka.impl.EnvType;
 import DmN.ICA.vodka.impl.LoaderType;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,4 +24,6 @@ public abstract class VodkaLoader implements VodkaMod {
     public @NotNull LoaderType getLoaderType() {
         return LoaderType.Unknown;
     }
+
+    public abstract @NotNull EnvType getEnvironment();
 }
