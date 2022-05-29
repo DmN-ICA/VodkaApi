@@ -26,4 +26,16 @@ public interface MinecraftVersion {
             return low.up() <= this.up();
         return true;
     }
+
+    class MinecraftVersionImpl {
+        public final String version;
+
+        public MinecraftVersionImpl(String version) {
+            this.version = version;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+    }
 }
