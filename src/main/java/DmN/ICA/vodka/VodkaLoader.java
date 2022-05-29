@@ -6,8 +6,28 @@ import DmN.ICA.vodka.impl.EnvType;
 import DmN.ICA.vodka.impl.LoaderType;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class VodkaLoader implements VodkaMod {
+public abstract class VodkaLoader implements VodkaMod, VodkaMod.FirstInitializer, VodkaMod.CommonInitializer, VodkaMod.ClientInitializer, VodkaMod.ServerInitializer {
     public static @NotNull VodkaLoader INSTANCE;
+
+    @Override
+    public void firstInit() {
+
+    }
+
+    @Override
+    public void commonInit() {
+
+    }
+
+    @Override
+    public void clientInit() {
+
+    }
+
+    @Override
+    public void serverInit() {
+
+    }
 
     @Override
     public @NotNull String getName() {
