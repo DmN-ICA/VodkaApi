@@ -27,14 +27,14 @@ public interface MinecraftVersion {
         return true;
     }
 
-    class MinecraftVersionImpl {
+    class MinecraftVersionImpl implements MinecraftVersion {
         public final String version;
 
         public MinecraftVersionImpl(String version) {
             this.version = version;
         }
 
-        public String getVersion() {
+        public @NotNull String full() {
             return version;
         }
     }
