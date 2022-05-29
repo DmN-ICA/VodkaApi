@@ -11,6 +11,8 @@ public class VodkaClassLoader extends URLClassLoader {
     }
 
     public static VodkaClassLoader create(File modsDir, ClassLoader parent) throws MalformedURLException {
+        if (!modsDir.exists())
+            modsDir.mkdirs();
         File[] files = modsDir.listFiles();
         URL[] mods = new URL[files.length];
         for (int i = 0; i < files.length; i++)
