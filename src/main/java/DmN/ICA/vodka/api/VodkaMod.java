@@ -5,35 +5,34 @@ import org.jetbrains.annotations.Nullable;
 
 public interface VodkaMod {
     @NotNull
-    String getName();
+    String name();
 
     @NotNull
-    String getVersion();
+    String version();
 
     @Nullable
-    default MinecraftVersion getHighMCVersion() {
-        return null;
-    }
+    MinecraftVersion highMCVersion();
 
     @Nullable
-    default MinecraftVersion getLowMCVersion() {
-        return null;
-    }
+    MinecraftVersion lowMCVersion();
 
-    @NotNull
-    default String[] loadPost() {
-        return new String[]{};
-    }
+    @Nullable
+    String[] loadPost();
 
-    @NotNull
-    default String[] loadPrev() {
-        return new String[]{};
-    }
+    @Nullable
+    String[] loadPrev();
 
-    @NotNull
-    default String[] needLoad() {
-        return new String[]{};
-    }
+    @Nullable
+    String[] dependencies();
+
+    @Nullable
+    String modClass();
+
+    @Nullable
+    Object instance();
+
+    boolean needCreateInstance();
+
 
     interface FirstInitializer {
         void firstInit();
