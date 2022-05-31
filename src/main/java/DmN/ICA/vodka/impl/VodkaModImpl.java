@@ -1,7 +1,6 @@
 package DmN.ICA.vodka.impl;
 
-import DmN.ICA.vodka.VodkaLoader;
-import DmN.ICA.vodka.api.VodkaMod;
+import DmN.ICA.vodka.json.api.VodkaMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,4 +1,4 @@
-package DmN.ICA.vodka.api;
+package DmN.ICA.vodka.json.api;
 
 import DmN.ICA.vodka.impl.MinecraftVersion;
 import org.jetbrains.annotations.NotNull;
@@ -57,19 +57,22 @@ public interface VodkaMod {
         LIBRARY
     }
 
-
+    @FunctionalInterface
     interface FirstInitializer {
         void firstInit();
     }
 
+    @FunctionalInterface
     interface ClientInitializer {
         void clientInit();
     }
 
+    @FunctionalInterface
     interface CommonInitializer {
         void commonInit();
     }
 
+    @FunctionalInterface
     interface ServerInitializer {
         void serverInit();
     }
