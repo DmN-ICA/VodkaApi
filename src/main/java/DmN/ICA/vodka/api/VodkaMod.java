@@ -3,6 +3,8 @@ package DmN.ICA.vodka.api;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public interface VodkaMod {
 
     // FOR LOAD
@@ -30,7 +32,7 @@ public interface VodkaMod {
     String description();
 
     @NotNull
-    String[] authors();
+    List<String> authors();
 
     // OPTIONAL
 
@@ -40,14 +42,14 @@ public interface VodkaMod {
     @Nullable
     MinecraftVersion lowMCVersion();
 
-    @Nullable
-    String[] loadPost();
+    @NotNull
+    List<String> loadPost();
 
-    @Nullable
-    String[] loadPrev();
+    @NotNull
+    List<String> loadPrev();
 
-    @Nullable
-    String[] dependencies();
+    @NotNull
+    List<String> dependencies();
 
     enum Type {
         MOD,

@@ -5,17 +5,19 @@ import DmN.ICA.vodka.api.VodkaMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class VodkaModImpl implements VodkaMod {
     public @NotNull String id;
     public int version;
     public @NotNull String name;
     public @Nullable String description;
-    public @NotNull String[] authors;
+    public @NotNull List<String> authors;
     public @Nullable MinecraftVersion highMCVersion;
     public @Nullable MinecraftVersion lowMCVersion;
-    public @Nullable String[] loadPost;
-    public @Nullable String[] loadPrev;
-    public @Nullable String[] dependencies;
+    public @NotNull List<String> loadPost;
+    public @NotNull List<String> loadPrev;
+    public @NotNull List<String> dependencies;
     public @Nullable String modClass;
     public @Nullable Object instance;
     public @NotNull Type type;
@@ -41,7 +43,7 @@ public class VodkaModImpl implements VodkaMod {
     }
 
     @Override
-    public @NotNull String[] authors() {
+    public @NotNull List<String> authors() {
         return authors;
     }
 
@@ -56,17 +58,17 @@ public class VodkaModImpl implements VodkaMod {
     }
 
     @Override
-    public @Nullable String[] loadPost() {
+    public @NotNull List<String> loadPost() {
         return loadPost;
     }
 
     @Override
-    public @Nullable String[] loadPrev() {
+    public @NotNull List<String> loadPrev() {
         return loadPrev;
     }
 
     @Override
-    public @Nullable String[] dependencies() {
+    public @NotNull List<String> dependencies() {
         return dependencies;
     }
 
