@@ -1,5 +1,6 @@
 package DmN.ICA.vodka.api;
 
+import DmN.ICA.vodka.impl.MinecraftVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

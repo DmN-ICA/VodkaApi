@@ -1,6 +1,6 @@
 package DmN.ICA.vodka;
 
-import DmN.ICA.vodka.api.MinecraftVersion;
+import DmN.ICA.vodka.impl.MinecraftVersion;
 import DmN.ICA.vodka.api.VodkaMod;
 import DmN.ICA.vodka.impl.EnvType;
 import DmN.ICA.vodka.impl.LoaderType;

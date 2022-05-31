@@ -1,14 +1,20 @@
-package DmN.ICA.vodka.api;
+package DmN.ICA.vodka.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface MinecraftVersion {
+public class MinecraftVersion {
+    public final @NotNull String version;
+
+    public MinecraftVersion(@NotNull String version) {
+        this.version = version;
+    }
+
     /**
      * Example: [1.7.10] - source version => [7] - up
      * @return Up part of MC version
      */
-    default int up() {
+    public int up() {
         return Integer.parseInt(full().split("\\.")[0]);
     }
 
@@ -17,25 +23,15 @@ public interface MinecraftVersion {
      * @return Full MC version
      */
     @NotNull
-    String full();
+    public String full() {
+        return version;
+    }
 
-    default boolean validate(@Nullable MinecraftVersion high, @Nullable MinecraftVersion low) {
+    public boolean validate(@Nullable MinecraftVersion high, @Nullable MinecraftVersion low) {
         if (high != null && high.up() < this.up())
             return false;
         if (low != null)
             return low.up() <= this.up();
         return true;
-    }
-
-    class MinecraftVersionImpl implements MinecraftVersion {
-        public final String version;
-
-        public MinecraftVersionImpl(String version) {
-            this.version = version;
-        }
-
-        public @NotNull String full() {
-            return version;
-        }
     }
 }
