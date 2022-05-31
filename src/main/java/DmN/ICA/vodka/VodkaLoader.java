@@ -17,7 +17,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
     public static final Logger LOGGER = LogManager.getLogger("Vodka[Loader/Api]");
     public static VodkaLoader INSTANCE;
     public final VodkaClassLoader loader;
-    public final List<VodkaMod> mods = new ArrayList<>();
+    public List<VodkaMod> mods = new ArrayList<>();
 
     protected VodkaLoader(@NotNull VodkaClassLoader loader) {
         this.loader = loader;
