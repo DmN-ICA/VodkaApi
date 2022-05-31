@@ -1,5 +1,6 @@
 package DmN.ICA.vodka.impl;
 
+import DmN.ICA.vodka.VodkaLoader;
 import DmN.ICA.vodka.api.VodkaMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -78,6 +79,12 @@ public class VodkaModImpl implements VodkaMod {
 
     @Override
     public @Nullable Object instance() {
+        try {
+            if (instance == null && modClass != null)
+                instance = Class.forName(modClass).newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException(e);
+        }
         return instance;
     }
 
