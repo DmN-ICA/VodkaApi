@@ -10,8 +10,7 @@ public interface VodkaMod {
     @NotNull
     String id();
 
-    @NotNull
-    String version();
+    int version();
 
     @NotNull
     Type type();

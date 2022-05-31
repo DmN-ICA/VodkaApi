@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class VodkaModImpl implements VodkaMod {
     public @NotNull String id;
-    public @NotNull String version;
+    public int version;
     public @NotNull String name;
     public @Nullable String description;
     public @NotNull String[] authors;
@@ -26,7 +26,7 @@ public class VodkaModImpl implements VodkaMod {
     }
 
     @Override
-    public @NotNull String version() {
+    public int version() {
         return version;
     }
 
