@@ -4,11 +4,36 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface VodkaMod {
+
+    // FOR LOAD
+
     @NotNull
-    String name();
+    String id();
 
     @NotNull
     String version();
+
+    @NotNull
+    Type type();
+
+    @Nullable
+    String modClass();
+
+    @Nullable
+    Object instance();
+
+    // INFO
+
+    @NotNull
+    String name();
+
+    @Nullable
+    String description();
+
+    @NotNull
+    String[] authors();
+
+    // OPTIONAL
 
     @Nullable
     MinecraftVersion highMCVersion();
@@ -25,13 +50,10 @@ public interface VodkaMod {
     @Nullable
     String[] dependencies();
 
-    @Nullable
-    String modClass();
-
-    @Nullable
-    Object instance();
-
-    boolean needCreateInstance();
+    enum Type {
+        MOD,
+        LIBRARY
+    }
 
 
     interface FirstInitializer {

@@ -6,8 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class VodkaModImpl implements VodkaMod {
-    public @NotNull String name;
+    public @NotNull String id;
     public @NotNull String version;
+    public @NotNull String name;
+    public @Nullable String description;
+    public @NotNull String[] authors;
     public @Nullable MinecraftVersion highMCVersion;
     public @Nullable MinecraftVersion lowMCVersion;
     public @Nullable String[] loadPost;
@@ -15,7 +18,17 @@ public class VodkaModImpl implements VodkaMod {
     public @Nullable String[] dependencies;
     public @Nullable String modClass;
     public @Nullable Object instance;
-    public boolean needCreateInstance;
+    public @NotNull Type type;
+
+    @Override
+    public @NotNull String id() {
+        return id;
+    }
+
+    @Override
+    public @NotNull String version() {
+        return version;
+    }
 
     @Override
     public @NotNull String name() {
@@ -23,8 +36,13 @@ public class VodkaModImpl implements VodkaMod {
     }
 
     @Override
-    public @NotNull String version() {
-        return version;
+    public @Nullable String description() {
+        return description;
+    }
+
+    @Override
+    public @NotNull String[] authors() {
+        return authors;
     }
 
     @Override
@@ -63,7 +81,7 @@ public class VodkaModImpl implements VodkaMod {
     }
 
     @Override
-    public boolean needCreateInstance() {
-        return needCreateInstance;
+    public @NotNull Type type() {
+        return type;
     }
 }
