@@ -1,4 +1,4 @@
-package DmN.ICA.vodka.impl;
+package DmN.ICA.vodka.api;
 
 public enum EnvType {
     CLIENT,

@@ -1,4 +1,4 @@
-package DmN.ICA.vodka.impl;
+package DmN.ICA.vodka.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
