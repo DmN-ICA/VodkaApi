@@ -10,47 +10,35 @@ public interface VodkaMod {
 
     // FOR LOAD
 
-    @NotNull
-    String id();
+    @NotNull String id();
 
     int version();
 
-    @NotNull
-    Type type();
+    @NotNull Type type();
 
-    @Nullable
-    String modClass();
+    @Nullable String modClass();
 
-    @Nullable
-    Object instance();
+    @Nullable Object instance();
 
     // INFO
 
-    @NotNull
-    String name();
+    @NotNull String name();
 
-    @Nullable
-    String description();
+    @Nullable String description();
 
-    @NotNull
-    List<String> authors();
+    @NotNull List<String> authors();
 
     // OPTIONAL
 
-    @Nullable
-    MinecraftVersion highMCVersion();
+    @Nullable MinecraftVersion highMCVersion();
 
-    @Nullable
-    MinecraftVersion lowMCVersion();
+    @Nullable MinecraftVersion lowMCVersion();
 
-    @NotNull
-    List<String> loadPost();
+    @NotNull List<String> loadPost();
 
-    @NotNull
-    List<String> loadPrev();
+    @NotNull List<String> loadPrev();
 
-    @NotNull
-    List<String> dependencies();
+    @NotNull List<String> dependencies();
 
     enum Type {
         MOD,
