@@ -1,4 +1,4 @@
-package DmN.ICA.vodka.api;
+package DmN.ICA.vodka.json.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public interface JsonObjectParser {
     Byte getByte(String name);
