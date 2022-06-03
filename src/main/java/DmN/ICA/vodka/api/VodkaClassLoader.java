@@ -18,13 +18,17 @@ public class VodkaClassLoader extends URLClassLoader {
     }
 
     public static VodkaClassLoader create(File modsDir, ClassLoader parent) throws MalformedURLException {
+        return new VodkaClassLoader(buildModsDir(modsDir), parent);
+    }
+
+    public static URL[] buildModsDir(File modsDir) throws MalformedURLException {
         if (!modsDir.exists())
             modsDir.mkdirs();
         File[] files = modsDir.listFiles();
         URL[] mods = new URL[files.length];
         for (int i = 0; i < files.length; i++)
             mods[i] = files[i].toURL();
-        return new VodkaClassLoader(mods, parent);
+        return mods;
     }
 
     public byte[] transform(EnvType envType, String name, byte[] bytes) throws Exception {
