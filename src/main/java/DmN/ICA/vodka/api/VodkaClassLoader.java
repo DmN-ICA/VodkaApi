@@ -1,6 +1,5 @@
 package DmN.ICA.vodka.api;
 
-import DmN.ICA.vodka.VodkaLoader;
 import DmN.ICA.vodka.annotations.Environment;
 import DmN.ICA.vodka.annotations.EnvironmentInterface;
 import DmN.ICA.vodka.annotations.EnvironmentInterfaces;
@@ -28,20 +27,20 @@ public class VodkaClassLoader extends URLClassLoader {
         return new VodkaClassLoader(mods, parent);
     }
 
-    public byte[] transform(String name, byte[] bytes) throws Exception {
+    public byte[] transform(EnvType envType, String name, byte[] bytes) throws Exception {
         ClassPool pool = ClassPool.getDefault();
         pool.appendClassPath(new ByteArrayClassPath(name, bytes));
         CtClass clazz = pool.getCtClass(name);
 
         if (clazz.hasAnnotation(Environment.class)) {
             Object type = ((Environment) clazz.getAnnotation(Environment.class)).value();
-            if (type != VodkaLoader.INSTANCE.getEnvironment())
+            if (type != envType)
                 throw new ClassNotFoundException("Class " + name + " loaded only in " + type + "'s!");
         }
 
         if (clazz.hasAnnotation(EnvironmentInterface.class)) {
             EnvironmentInterface annotation = ((EnvironmentInterface) clazz.getAnnotation(EnvironmentInterface.class));
-            if (annotation.value() != VodkaLoader.INSTANCE.getEnvironment()) {
+            if (annotation.value() != envType) {
                 String filter = annotation.itf().getName();
                 clazz.setInterfaces(Arrays.stream(clazz.getInterfaces()).filter(inf -> !inf.getName().equals(filter)).toArray(CtClass[]::new));
             }
@@ -49,19 +48,19 @@ public class VodkaClassLoader extends URLClassLoader {
 
         if (clazz.hasAnnotation(EnvironmentInterfaces.class)) {
             EnvironmentInterfaces annotation = (EnvironmentInterfaces) clazz.getAnnotation(EnvironmentInterfaces.class);
-            EnvironmentInterface[] interfaces = Arrays.stream(annotation.value()).filter(inf -> inf.value() != VodkaLoader.INSTANCE.getEnvironment()).toArray(EnvironmentInterface[]::new);
+            EnvironmentInterface[] interfaces = Arrays.stream(annotation.value()).filter(inf -> inf.value() != envType).toArray(EnvironmentInterface[]::new);
             clazz.setInterfaces(Arrays.stream(clazz.getInterfaces()).filter(inf -> !Arrays.stream(interfaces).allMatch(filter -> filter.itf().getName().equals(inf.getName()))).toArray(CtClass[]::new));
         }
 
-        filterMember(clazz.getDeclaredFields(), clazz::removeField);
-        filterMember(clazz.getDeclaredMethods(), clazz::removeMethod);
-        filterMember(clazz.getConstructors(), clazz::removeConstructor);
+        filterMember(envType, clazz.getDeclaredFields(), clazz::removeField);
+        filterMember(envType, clazz.getDeclaredMethods(), clazz::removeMethod);
+        filterMember(envType, clazz.getConstructors(), clazz::removeConstructor);
 
         for (CtMethod method : clazz.getDeclaredMethods()) {
             if (method.hasAnnotation(EnvironmentMethod.class)) {
                 EnvironmentMethod annotation = (EnvironmentMethod) method.getAnnotation(EnvironmentMethod.class);
-                getMethod(clazz, VodkaLoader.INSTANCE.getEnvironment() == EnvType.CLIENT ? annotation.client() : annotation.server()).setName(method.getName());
-                clazz.removeMethod(getMethod(clazz, VodkaLoader.INSTANCE.getEnvironment() == EnvType.CLIENT ? annotation.server() : annotation.client()));
+                getMethod(clazz, envType == EnvType.CLIENT ? annotation.client() : annotation.server()).setName(method.getName());
+                clazz.removeMethod(getMethod(clazz, envType == EnvType.CLIENT ? annotation.server() : annotation.client()));
                 clazz.removeMethod(method);
             }
         }
@@ -74,9 +73,9 @@ public class VodkaClassLoader extends URLClassLoader {
         return clazz.getMethod(pinfo[0], '(' + pinfo[1]);
     }
 
-    public <T extends CtMember> void filterMember(T[] members, FilterAction<T> consumer) throws Exception {
+    public <T extends CtMember> void filterMember(EnvType envType, T[] members, FilterAction<T> consumer) throws Exception {
         for (T member : members)
-            if (member.hasAnnotation(Environment.class) &&  ((Environment) member.getAnnotation(Environment.class)).value() != VodkaLoader.INSTANCE.getEnvironment())
+            if (member.hasAnnotation(Environment.class) &&  ((Environment) member.getAnnotation(Environment.class)).value() != envType)
                 consumer.filter(member);
     }
 
