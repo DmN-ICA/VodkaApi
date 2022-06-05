@@ -13,6 +13,8 @@ import java.net.URLClassLoader;
 import java.util.Arrays;
 
 public class VodkaClassLoader extends URLClassLoader {
+    public final ClassPool pool = new ClassPool(ClassPool.getDefault());
+
     public VodkaClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
     }
@@ -32,7 +34,6 @@ public class VodkaClassLoader extends URLClassLoader {
     }
 
     public byte[] transform(EnvType envType, String name, byte[] bytes) throws Exception {
-        ClassPool pool = ClassPool.getDefault();
         pool.appendClassPath(new ByteArrayClassPath(name, bytes));
         CtClass clazz = pool.getCtClass(name);
 
