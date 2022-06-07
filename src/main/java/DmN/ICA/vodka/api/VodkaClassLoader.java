@@ -1,5 +1,6 @@
 package DmN.ICA.vodka.api;
 
+
 import DmN.ICA.vodka.annotations.Environment;
 import DmN.ICA.vodka.annotations.EnvironmentInterface;
 import DmN.ICA.vodka.annotations.EnvironmentInterfaces;
@@ -13,7 +14,8 @@ import java.net.URLClassLoader;
 import java.util.Arrays;
 
 public class VodkaClassLoader extends URLClassLoader {
-    public final ClassPool pool = new ClassPool(ClassPool.getDefault());
+        public final ClassPool pool = new ClassPool(ClassPool.getDefault());
+//    public final ClassPool pool = ClassPool.getDefault();
 
     public VodkaClassLoader(URL[] urls, ClassLoader parent) {
         super(urls, parent);
@@ -34,6 +36,7 @@ public class VodkaClassLoader extends URLClassLoader {
     }
 
     public byte[] transform(EnvType envType, String name, byte[] bytes) throws Exception {
+        name = name.endsWith(".class") ? name.substring(0, name.length() - 6).replace('/', '.') : name;
         pool.appendClassPath(new ByteArrayClassPath(name, bytes));
         CtClass clazz = pool.getCtClass(name);
 
@@ -42,6 +45,9 @@ public class VodkaClassLoader extends URLClassLoader {
             if (type != envType)
                 throw new ClassNotFoundException("Class " + name + " loaded only in " + type + "'s!");
         }
+
+        if (clazz.isFrozen())
+            clazz.defrost();
 
         if (clazz.hasAnnotation(EnvironmentInterface.class)) {
             EnvironmentInterface annotation = ((EnvironmentInterface) clazz.getAnnotation(EnvironmentInterface.class));
@@ -80,12 +86,12 @@ public class VodkaClassLoader extends URLClassLoader {
 
     public <T extends CtMember> void filterMember(EnvType envType, T[] members, FilterAction<T> consumer) throws Exception {
         for (T member : members)
-            if (member.hasAnnotation(Environment.class) &&  ((Environment) member.getAnnotation(Environment.class)).value() != envType)
+            if (member.hasAnnotation(Environment.class) && ((Environment) member.getAnnotation(Environment.class)).value() != envType)
                 consumer.filter(member);
     }
 
     @FunctionalInterface
-    public interface FilterAction <T extends CtMember> {
+    public interface FilterAction<T extends CtMember> {
         void filter(T member) throws Exception;
     }
 }
