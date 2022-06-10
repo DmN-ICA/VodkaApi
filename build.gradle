@@ -20,7 +20,7 @@ dependencies {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        gpr(MavenPublication) {
             from(components.java)
         }
     }
@@ -29,8 +29,8 @@ publishing {
             name = "GitHubPackages"
             url = "https://maven.pkg.github.com/DmN-ICA/VodkaApi"
             credentials {
-                username = project.findProperty('ghActor')
-                password = project.findProperty('ghToken')
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
