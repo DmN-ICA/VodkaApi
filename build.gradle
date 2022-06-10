@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'DmN.ICA'
@@ -17,6 +18,20 @@ dependencies {
     implementation group: 'org.javassist', name: 'javassist', version: '3.29.0-GA'
 }
 
-test {
-    useJUnitPlatform()
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/DmN-ICA/VodkaApi"
+            credentials {
+                username = project.findProperty('ghActor')
+                password = project.findProperty('ghToken')
+            }
+        }
+    }
 }
