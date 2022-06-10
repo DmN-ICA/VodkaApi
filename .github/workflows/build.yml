@@ -40,3 +40,8 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+  publish:
+    runs-on:   ubuntu-20.04
+    steps:
+      - name: publish
+        run: ./gradlew publish
