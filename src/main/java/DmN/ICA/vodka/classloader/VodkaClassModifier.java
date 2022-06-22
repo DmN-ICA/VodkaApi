@@ -35,6 +35,8 @@ public class VodkaClassModifier extends ClassNode {
     public void visitEnd() {
         super.visitEnd();
         annotations.forEach((annotationClass, annotation) -> {
+            if (!annotationClass.startsWith("DmN/ICA/vodka/annotations"))
+                return;
             Map<String, Object> data = wrapAnnData(annotation.values);
             switch (annotationClass) {
                 case "DmN/ICA/vodka/annotations/Environment":

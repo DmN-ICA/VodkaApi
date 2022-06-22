@@ -28,7 +28,7 @@ public class VodkaClassLoader extends URLClassLoader {
         File[] files = modsDir.listFiles();
         URL[] mods = new URL[Objects.requireNonNull(files).length];
         for (int i = 0; i < files.length; i++)
-            mods[i] = files[i].toURL();
+            mods[i] = files[i].toURI().toURL();
         return mods;
     }
 
