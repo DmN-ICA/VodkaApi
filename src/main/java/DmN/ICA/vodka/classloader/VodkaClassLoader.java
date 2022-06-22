@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class VodkaClassLoader extends URLClassLoader {
@@ -38,5 +40,23 @@ public class VodkaClassLoader extends URLClassLoader {
         ClassWriter writer = new ClassWriter(0);
         node.accept(writer);
         return writer.toByteArray();
+    }
+
+    // TRANSFORM INJECTOR //
+
+    public final List<transformPPFunction> preTransformerFunctions = new ArrayList<>();
+    public final List<transformPPFunction> postTransformerFunctions = new ArrayList<>();
+
+    public void preTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node) {
+        preTransformerFunctions.forEach(transformPPFunction -> transformPPFunction.ppTransform(envType, name, bytes, node));
+    }
+
+    public void postTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node) {
+        postTransformerFunctions.forEach(transformPPFunction -> transformPPFunction.ppTransform(envType, name, bytes, node));
+    }
+
+    @FunctionalInterface
+    public interface transformPPFunction {
+        void ppTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node);
     }
 }

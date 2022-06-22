@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        ClassNode node = new VodkaClassModifier(EnvType.SERVER);
+        ClassNode node = new VodkaClassModifier(EnvType.CLIENT);
         new ClassReader("DmN.ICA.vodka.test.classes.TestMultiClass").accept(node, 0);
 
         ClassWriter writer = new ClassWriter(0);
