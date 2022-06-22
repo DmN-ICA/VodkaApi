@@ -14,7 +14,7 @@ public class VodkaLoaderUtils {
     public static final MethodHandle ClassLoader$defineClass;
 
     @SuppressWarnings("unchecked")
-    public Class<VodkaClassLoader> loadVodkaLoader(ClassLoader loader, boolean inject) throws ClassNotFoundException {
+    public static Class<VodkaClassLoader> loadVodkaLoader(ClassLoader loader, boolean inject) throws ClassNotFoundException {
         if (!inject) {
             try {
                 ClassNode node = new ClassNode();
