@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface EnvironmentInterfaces {
     /**
-     * Returns the {@link EnvironmentInterface} annotations it holds.
+     * @return the {@link EnvironmentInterface} annotations it holds.
      */
     EnvironmentInterface[] value();
 }

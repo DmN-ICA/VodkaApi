@@ -20,12 +20,12 @@ import java.lang.annotation.*;
 @Documented
 public @interface EnvironmentInterface {
     /**
-     * Returns the environment type that the specific interface is only implemented in.
+     * @return  the environment type that the specific interface is only implemented in.
      */
     EnvType value();
 
     /**
-     * Returns the interface class.
+     * @return  the interface class.
      */
     Class<?> itf();
 }

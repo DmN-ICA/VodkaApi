@@ -11,7 +11,6 @@ public class MinecraftVersion {
     }
 
     /**
-     * Example: [1.7.10] - source version => [7] - up
      * @return Up part of MC version
      */
     public int up() {
@@ -19,7 +18,6 @@ public class MinecraftVersion {
     }
 
     /**
-     * Example: [1.7.10] - source version => [1.7.10] - full
      * @return Full MC version
      */
     @NotNull

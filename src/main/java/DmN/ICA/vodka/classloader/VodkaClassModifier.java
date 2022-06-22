@@ -54,6 +54,8 @@ public class VodkaClassModifier extends ClassNode {
         });
         allMethods.forEach(method -> {
             for (String key : method.annotations.keySet()) {
+                if (!key.startsWith("DmN/ICA/vodka/annotations"))
+                    return;
                 Map<String, Object> parameters = wrapAnnData(method.annotations.get(key).values);
                 if (key.equals("DmN/ICA/vodka/annotations/Environment") && parameters.get("value") != env) {
                     deleteMethod(method.name, method.descriptor);

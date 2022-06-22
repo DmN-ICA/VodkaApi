@@ -24,7 +24,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface Environment {
     /**
-     * Returns the environment type that the annotated element is only present in.
+     * @return  the environment type that the annotated element is only present in.
      */
     EnvType value();
 }
