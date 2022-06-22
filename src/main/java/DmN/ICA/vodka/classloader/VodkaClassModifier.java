@@ -30,6 +30,7 @@ public class VodkaClassModifier extends ClassNode {
         return node;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void visitEnd() {
         super.visitEnd();
@@ -45,7 +46,7 @@ public class VodkaClassModifier extends ClassNode {
                         this.interfaces.remove(processDescriptor(((Type) data.get("itf")).getDescriptor()));
                     break;
                 case "DmN/ICA/vodka/annotations/EnvironmentInterfaces":
-                    for (var itf : ((List<AnnotationNode>) data.get("value")))
+                    for (AnnotationNode itf : ((List<AnnotationNode>) data.get("value")))
                         if (!((String[]) itf.values.get(1))[1].equals(env.name()))
                             this.interfaces.remove(processDescriptor(((Type) itf.values.get(3)).getDescriptor()));
                     break;
@@ -62,11 +63,17 @@ public class VodkaClassModifier extends ClassNode {
                     MethodInfoVisitor server = allMethods.stream().filter(m -> (m.name + m.descriptor).equals(parameters.get("server"))).findFirst().orElse(null);
                     deleteMethod(method.name, method.descriptor);
                     if (env == EnvType.CLIENT) {
-                        findMethod(client.name, client.descriptor).get().name = method.name;
-                        deleteMethod(server.name, server.descriptor);
+                        if (client == null)
+                            throw new NullPointerException("Client method is null!");
+                        findMethod(client.name, client.descriptor).orElseThrow(NullPointerException::new).name = method.name;
+                        if (server != null)
+                            deleteMethod(server.name, server.descriptor);
                     } else {
-                        findMethod(server.name, server.descriptor).get().name = method.name;
-                        deleteMethod(client.name, client.descriptor);
+                        if (server == null)
+                            throw new NullPointerException("Server method is null!");
+                        findMethod(server.name, server.descriptor).orElseThrow(NullPointerException::new).name = method.name;
+                        if (client != null)
+                            deleteMethod(client.name, client.descriptor);
                     }
                 }
             }
