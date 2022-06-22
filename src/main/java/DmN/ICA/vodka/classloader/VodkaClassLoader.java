@@ -37,26 +37,17 @@ public class VodkaClassLoader extends URLClassLoader {
     public byte @NotNull [] transform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes) {
         ClassNode node = new VodkaClassModifier(envType);
         new ClassReader(bytes).accept(node, 0);
+        transformFunctions.forEach(f -> f.transform(envType, name, bytes, node));
         ClassWriter writer = new ClassWriter(0);
         node.accept(writer);
         return writer.toByteArray();
     }
 
     // TRANSFORM INJECTOR //
-
-    public final List<transformPPFunction> preTransformerFunctions = new ArrayList<>();
-    public final List<transformPPFunction> postTransformerFunctions = new ArrayList<>();
-
-    public void preTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node) {
-        preTransformerFunctions.forEach(transformPPFunction -> transformPPFunction.ppTransform(envType, name, bytes, node));
-    }
-
-    public void postTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node) {
-        postTransformerFunctions.forEach(transformPPFunction -> transformPPFunction.ppTransform(envType, name, bytes, node));
-    }
+    public final List<transformFunction> transformFunctions = new ArrayList<>();
 
     @FunctionalInterface
-    public interface transformPPFunction {
-        void ppTransform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node);
+    public interface transformFunction {
+        void transform(@NotNull EnvType envType, @NotNull String name, byte @NotNull [] bytes, @NotNull ClassNode node);
     }
 }
