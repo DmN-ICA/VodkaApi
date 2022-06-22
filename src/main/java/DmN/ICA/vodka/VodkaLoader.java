@@ -1,6 +1,7 @@
 package DmN.ICA.vodka;
 
 import DmN.ICA.vodka.api.*;
+import DmN.ICA.vodka.classloader.VodkaClassLoader;
 import DmN.ICA.vodka.impl.*;
 import DmN.ICA.vodka.json.api.JsonObjectParser;
 import DmN.ICA.vodka.api.VodkaMod;
@@ -34,7 +35,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
         try {
             Enumeration<URL> enumeration = this.getClass().getClassLoader().getResources("vodka.mod.json");
             while (enumeration.hasMoreElements()) {
-                JsonObjectParser jparser = JsonObjectParser.create(new JsonParser().parse(new FileReader(enumeration.nextElement().getFile())).getAsJsonObject());
+                JsonObjectParser jparser = JsonObjectParser.create(JsonParser.parseReader(new FileReader(enumeration.nextElement().getFile())).getAsJsonObject());
                 VodkaModImpl mod = new VodkaModImpl();
                 mod.id = jparser.getString("id");
                 mod.version = jparser.getInt("version");
