@@ -5,6 +5,7 @@ import DmN.ICA.vodka.api.VodkaMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VodkaModImpl implements VodkaMod {
@@ -15,9 +16,9 @@ public class VodkaModImpl implements VodkaMod {
     public @NotNull List<String> authors;
     public @Nullable MinecraftVersion highMCVersion;
     public @Nullable MinecraftVersion lowMCVersion;
-    public @NotNull List<String> loadPost;
-    public @NotNull List<String> loadPrev;
-    public @NotNull List<String> dependencies;
+    public @NotNull List<String> loadPost = new ArrayList<>();
+    public @NotNull List<String> loadPrev = new ArrayList<>();
+    public @NotNull List<String> dependencies = new ArrayList<>();
     public @Nullable String modClass;
     public @Nullable Object instance;
     public @NotNull Type type;
@@ -91,5 +92,10 @@ public class VodkaModImpl implements VodkaMod {
     @Override
     public @NotNull Type type() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "Mod[" + this.id + "][" + this.name + "]";
     }
 }

@@ -60,10 +60,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
                 this.mods.add(mod);
             }
 
-            List<VodkaMod> loads = new ArrayList<>();
-            for (VodkaMod mod : this.mods)
-                sortForLoad(loads, mod);
-            this.mods = loads;
+            this.sortMods();
 
             callInit(VodkaMod.FirstInitializer.class, "firstInit");
         } catch (Exception e) {
@@ -127,27 +124,51 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
                 clazz.getMethod(name).invoke(mod.instance());
     }
 
-    protected void sortForLoad(List<VodkaMod> loads, VodkaMod last) {
-        if (loads.stream().anyMatch(mod -> mod.id().equals(last.id())))
-            return;
-        for (String mod : last.loadPost())
-            this.sortForLoad(loads, this.mods.stream().filter(m -> m.id().equals(mod)).findFirst().get());
-        if (!last.loadPrev().isEmpty()) {
-            int minId = loads.size() - 1;
-            for (String mod : last.loadPrev())
-                minId = Math.min(minId, this.mods.indexOf(this.mods.stream().filter(m -> m.id().equals(mod)).findFirst().get()));
-            List<VodkaMod> tmp0 = new ArrayList<>();
-            List<VodkaMod> tmp1 = new ArrayList<>();
-            for (int i = 0; i < minId; i++)
-                tmp0.add(loads.get(i));
-            for (int i = minId; i < loads.size(); i++)
-                tmp1.add(loads.get(i));
-            loads.clear();
-            loads.addAll(tmp0);
-            loads.add(last);
-            loads.addAll(tmp1);
-        } else
-            loads.add(last);
+    public void sortMods() {
+        for (int i = 0; i < this.mods.size(); i++) {
+            var mod = this.mods.get(i);
+            if (modPrevValid(mod, i) && modPostValid(mod, i))
+                continue;
+
+            this.mods.remove(mod);
+            for (int j = 0; j < this.mods.size() + 1; j++) {
+                if (modPrevValid(mod, j) && modPostValid(mod, j)) {
+                    if (this.mods.size() <= j)
+                        this.mods.add(mod);
+                    else {
+                        var part0 = this.mods.subList(0, j);
+                        part0.add(mod);
+                        part0.addAll(this.mods.subList(j + 1, this.mods.size()));
+                        this.mods = part0;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean modPrevValid(VodkaMod mod, int index) {
+        boolean valid = true;
+        for (var id : mod.loadPrev()) {
+            if (index <= this.mods.indexOf(getMod(id)))
+                continue;
+            valid = false;
+        }
+        return valid;
+    }
+
+    public boolean modPostValid(VodkaMod mod, int index) {
+        boolean valid = true;
+        for (var id : mod.loadPost()) {
+            if (index > this.mods.indexOf(getMod(id)))
+                continue;
+            valid = false;
+        }
+        return valid;
+    }
+
+    public VodkaMod getMod(String id) {
+        return this.mods.stream().filter(mod -> mod.id().equals(id)).findAny().orElseThrow();
     }
 
     public static class VodkaLoaderRuntimeException extends RuntimeException {
