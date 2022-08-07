@@ -21,7 +21,7 @@ public class EnvClientTest {
             Class<?> clazz = loader.testLoad("DmN.ICA.vodka.test.classes.TestMultiClass", EnvType.CLIENT);
             assert clazz  != null;
             assert clazz.getMethods().length - Object.class.getMethods().length == 3;
-            assert clazz.getMethod("foo").invoke(clazz.newInstance()).equals("client!");
+            assert clazz.getMethod("foo").invoke(clazz.getConstructor().newInstance()).equals("client!");
         }
     }
 
