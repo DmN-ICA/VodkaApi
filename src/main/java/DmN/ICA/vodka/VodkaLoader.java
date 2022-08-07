@@ -126,7 +126,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
 
     public void sortMods() {
         for (int i = 0; i < this.mods.size(); i++) {
-            var mod = this.mods.get(i);
+            VodkaMod mod = this.mods.get(i);
             if (modPrevValid(mod, i) && modPostValid(mod, i))
                 continue;
 
@@ -136,7 +136,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
                     if (this.mods.size() <= j)
                         this.mods.add(mod);
                     else {
-                        var part0 = this.mods.subList(0, j);
+                        List<VodkaMod> part0 = this.mods.subList(0, j);
                         part0.add(mod);
                         part0.addAll(this.mods.subList(j + 1, this.mods.size()));
                         this.mods = part0;
@@ -149,7 +149,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
 
     public boolean modPrevValid(VodkaMod mod, int index) {
         boolean valid = true;
-        for (var id : mod.loadPrev()) {
+        for (String id : mod.loadPrev()) {
             if (index <= this.mods.indexOf(getMod(id)))
                 continue;
             valid = false;
@@ -159,7 +159,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
 
     public boolean modPostValid(VodkaMod mod, int index) {
         boolean valid = true;
-        for (var id : mod.loadPost()) {
+        for (String id : mod.loadPost()) {
             if (index > this.mods.indexOf(getMod(id)))
                 continue;
             valid = false;
@@ -168,7 +168,7 @@ public abstract class VodkaLoader implements VodkaMod.FirstInitializer, VodkaMod
     }
 
     public VodkaMod getMod(String id) {
-        return this.mods.stream().filter(mod -> mod.id().equals(id)).findAny().orElseThrow();
+        return this.mods.stream().filter(mod -> mod.id().equals(id)).findAny().get();
     }
 
     public static class VodkaLoaderRuntimeException extends RuntimeException {
